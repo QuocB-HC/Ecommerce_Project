@@ -51,7 +51,7 @@ export default function OrderHistory() {
       ) : (
         orders.map((order) => (
           <div key={order.id} className={styles.orderCard}>
-            <h4>Đơn hàng #{order.display_id || order.id}</h4>
+            <h4>Đơn hàng #{order.id.slice(-7)}</h4>
             <p>
               <strong>Ngày đặt:</strong>{" "}
               {new Date(order.created_at).toLocaleDateString("vi-VN")}

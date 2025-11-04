@@ -203,7 +203,7 @@ export async function updateCustomerProfile(data) {
     const res = await apiStoreClient.post("/customers/me", data);
     return res.data.customer;
   } catch (err) {
-    throw (err, "Cập nhật hồ sơ thất bại");
+    throw new Error("Cập nhật hồ sơ thất bại: " + err.message);
   }
 }
 
@@ -217,7 +217,7 @@ export async function changeCustomerPassword(oldPassword, newPassword) {
     });
     return res.data.customer;
   } catch (err) {
-    throw (err, "Đổi mật khẩu thất bại");
+    throw new Error("Đổi mật khẩu thất bại" + err.message);
   }
 }
 
