@@ -44,6 +44,7 @@ export default function Header() {
     const handleClickOutside = (e) => {
       if (menuRef.current && !menuRef.current.contains(e.target)) {
         setOpen(false);
+        setShowMenu(false);
       }
       if (searchRef.current && !searchRef.current.contains(e.target)) {
         setShowSuggestions(false);
@@ -56,7 +57,9 @@ export default function Header() {
   // Load all products once for client-side filtering (Medusa store endpoint)
   useEffect(() => {
     const regionId = process.env.REACT_APP_MEDUSA_REGION_ID;
-    const url = `http://localhost:9000/store/products?limit=1000${regionId ? `&region_id=${regionId}` : ""}`;
+    const url = `http://localhost:9000/store/products?limit=1000${
+      regionId ? `&region_id=${regionId}` : ""
+    }`;
     setLoadingProducts(true);
     fetch(url, {
       headers: {
@@ -93,7 +96,13 @@ export default function Header() {
         return title.includes(q) || id.includes(q);
       });
       setFilteredCount(filteredAll.length);
-      const sliced = filteredAll.slice(0, SUGGESTION_LIMIT).map((p) => ({ id: p.id, title: p.title || p.name, thumbnail: p.thumbnail }));
+      const sliced = filteredAll
+        .slice(0, SUGGESTION_LIMIT)
+        .map((p) => ({
+          id: p.id,
+          title: p.title || p.name,
+          thumbnail: p.thumbnail,
+        }));
       setSuggestions(sliced);
     }, 250);
     return () => clearTimeout(timer);
@@ -140,7 +149,7 @@ export default function Header() {
           {/* <span className="text-menu-button"></span> */}
         </button>
         {showMenu && (
-          <div className="dropdown-menu">
+          <div className="dropdown-menu" ref={menuRef}>
             <NavLink to="/products?category=Làm Việc" className="menu-item">
               Làm Việc
             </NavLink>
@@ -178,7 +187,11 @@ export default function Header() {
 
       {/* 3. Thanh Tìm kiếm */}
       <div className="search-bar" ref={searchRef}>
-        <form onSubmit={handleSubmit} className="search-form" style={{ position: "relative" }}>
+        <form
+          onSubmit={handleSubmit}
+          className="search-form"
+          style={{ position: "relative" }}
+        >
           <input
             type="text"
             id="search"
@@ -188,20 +201,26 @@ export default function Header() {
             aria-label="Search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            onFocus={() => { if (suggestions.length) setShowSuggestions(true); }}
+            onFocus={() => {
+              if (suggestions.length) setShowSuggestions(true);
+            }}
             autoComplete="off"
           />
           <button className="search-button" type="submit" aria-label="Tìm">
-            <FaSearch className="icon" />
+            <FaSearch className="icon" color="white" />
           </button>
 
-          {showSuggestions && (
-            loadingProducts ? (
+          {showSuggestions &&
+            (loadingProducts ? (
               <ul className="suggestions-list">
                 <li className="suggestion-loading">Đang tải...</li>
               </ul>
             ) : (
-              <ul className="suggestions-list" role="listbox" aria-label="Gợi ý tìm kiếm">
+              <ul
+                className="suggestions-list"
+                role="listbox"
+                aria-label="Gợi ý tìm kiếm"
+              >
                 {suggestions.map((p) => (
                   <li
                     key={p.id}
@@ -209,16 +228,29 @@ export default function Header() {
                     role="option"
                     onMouseDown={() => handleSelectSuggestion(p)} // onMouseDown để xử lý trước blur
                   >
-                    <img src={p.thumbnail || "/default-product.png"} alt="" className="suggestion-thumbnail" />
+                    <img
+                      src={p.thumbnail || "/default-product.png"}
+                      alt=""
+                      className="suggestion-thumbnail"
+                    />
                     <span className="suggestion-title">{p.title}</span>
-                    <small className="suggestion-id">{p.id.slice(0, 8)}...</small>
+                    <small className="suggestion-id">
+                      {p.id.slice(0, 8)}...
+                    </small>
                   </li>
                 ))}
 
                 {/* Footer: show button to view full results when more matches exist */}
                 {filteredCount > suggestions.length && (
                   <li className="suggestions-footer">
-                    <button type="button" className="show-all-button" onMouseDown={(e) => { e.preventDefault(); handleShowAll(); }}>
+                    <button
+                      type="button"
+                      className="show-all-button"
+                      onMouseDown={(e) => {
+                        e.preventDefault();
+                        handleShowAll();
+                      }}
+                    >
                       Xem tất cả {filteredCount} kết quả cho “{query}”
                     </button>
                   </li>
@@ -228,8 +260,7 @@ export default function Header() {
                   <li className="suggestion-empty">Không tìm thấy kết quả</li>
                 )}
               </ul>
-            )
-          )}
+            ))}
         </form>
       </div>
 
@@ -278,7 +309,7 @@ export default function Header() {
             isActive ? "nav-link active cart-link" : "nav-link cart-link"
           }
         >
-          <FaShoppingCart className="icon" />
+          <FaShoppingCart className="user-icon" />
           {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
         </NavLink>
 
@@ -287,27 +318,31 @@ export default function Header() {
           <>
             {/* Nếu đã đăng nhập: Hiển thị tên và nút Đăng xuất */}
             {/* Thêm link đến trang /account để quản lý hồ sơ */}
-            <NavLink
-              to="/profile" // 💡 Giả sử trang quản lý hồ sơ là /account
-              className={({ isActive }) =>
-                isActive
-                  ? "nav-link nav-link-account active"
-                  : "nav-link nav-link-account"
-              }
-            >
-              {/* <FaUserCircle className="icon" style={{ marginRight: "5px" }} />
-              {getCustomerDisplayName()} */}
-            </NavLink>
-
-            {/* Nút Đăng xuất */}
             <button
-              onClick={logout}
-              className="nav-link logout-button"
-              title="Đăng xuất"
-              aria-label="Đăng xuất"
+              className="user-button"
+              onClick={() => setOpen(!open)}
+              aria-label="Tài khoản"
             >
-              <FiLogOut className="icon" />
+              <FaUserCircle className="user-icon" />
             </button>
+
+            {open && (
+              <div className="user-dropdown" ref={menuRef}>
+                {items.map((item) => (
+                  <NavLink
+                    key={item.link}
+                    to={item.link}
+                    className="dropdown-item"
+                    onClick={() => setOpen(false)}
+                  >
+                    {item.name}
+                  </NavLink>
+                ))}
+                <button className="dropdown-item logout" onClick={logout}>
+                  Đăng xuất
+                </button>
+              </div>
+            )}
           </>
         ) : (
           /* Nếu chưa đăng nhập: Hiển thị link Đăng nhập/Đăng ký */
@@ -318,7 +353,7 @@ export default function Header() {
             }
             title="Đăng nhập / Đăng ký"
           >
-            <FaUserCircle className="icon" />
+            <FaUserCircle className="user-icon" />
           </NavLink>
         )}
       </nav>

@@ -18,7 +18,9 @@ export default function Cart() {
   }, [cart]);
 
   const toggleSelect = (id) => {
-    setSelected((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+    setSelected((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
   };
 
   const applyPromo = () => {
@@ -48,13 +50,20 @@ export default function Cart() {
   // total = sum of prices of checked items (each item quantity = 1)
   const total = cart.reduce((sum, item) => {
     if (!selected.includes(item.id)) return sum;
-    const variantPrice = item.selectedVariant?.price || (item?.selectedVariant?.price ?? 0);
+    const variantPrice =
+      item.selectedVariant?.price || (item?.selectedVariant?.price ?? 0);
     // variantPrice expected in VND unit (299000 etc)
     return sum + (variantPrice || 0);
   }, 0);
 
   if (!cart.length) {
-    return <div className="cart-empty">🛒 Giỏ hàng của bạn đang trống</div>;
+    return (
+      <div className="cart-page">
+        <div className="cart-wapper">
+          <p className="cart-empty">🛒 Giỏ hàng của bạn đang trống</p>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -65,7 +74,10 @@ export default function Cart() {
           <h2>Giỏ hàng ({cart.length} sản phẩm)</h2>
 
           {cart.map((item, index) => {
-            const variantPrice = item.selectedVariant?.price || (item?.variants?.[0]?.calculated_price?.calculated_amount || 0);
+            const variantPrice =
+              item.selectedVariant?.price ||
+              item?.variants?.[0]?.calculated_price?.calculated_amount ||
+              0;
 
             return (
               <div key={index} className="cart-row">
@@ -76,20 +88,29 @@ export default function Cart() {
                   onChange={() => toggleSelect(item.id)}
                 />
 
-                <img src={item.thumbnail || "https://via.placeholder.com/100"} alt={item.title} />
+                <img
+                  src={item.thumbnail || "https://via.placeholder.com/100"}
+                  alt={item.title}
+                />
 
                 <div className="cart-info">
                   {/* title already contains friendly label from ProductDetail */}
                   <h3>{item.title}</h3>
 
                   {/* Show readable selected options (optionTitle: value) */}
-                  {item.selectedOptions && Object.keys(item.selectedOptions).length > 0 && (
-                    <div style={{ fontSize: 13, color: "#666", marginTop: 6 }}>
-                      {Object.entries(item.selectedOptions).map(([k, v]) => (
-                        <span key={k} style={{ marginRight: 12 }}>{`${k}: ${v}`}</span>
-                      ))}
-                    </div>
-                  )}
+                  {item.selectedOptions &&
+                    Object.keys(item.selectedOptions).length > 0 && (
+                      <div
+                        style={{ fontSize: 13, color: "#666", marginTop: 6 }}
+                      >
+                        {Object.entries(item.selectedOptions).map(([k, v]) => (
+                          <span
+                            key={k}
+                            style={{ marginRight: 12 }}
+                          >{`${k}: ${v}`}</span>
+                        ))}
+                      </div>
+                    )}
 
                   {/* Variant info (optional) */}
                   {item.selectedVariant?.title && (
@@ -99,13 +120,22 @@ export default function Cart() {
                   )}
 
                   {/* price (single license) */}
-                  <p className="price" style={{ marginTop: 8 }}>{variantPrice.toLocaleString()} đ</p>
+                  <p className="price" style={{ marginTop: 8 }}>
+                    {variantPrice.toLocaleString()} đ
+                  </p>
 
                   {/* Quantity locked to 1 */}
-                  <div style={{ marginTop: 6, color: "#666", fontSize: 13 }}>Số lượng: <strong>1</strong></div>
+                  <div style={{ marginTop: 6, color: "#666", fontSize: 13 }}>
+                    Số lượng: <strong>1</strong>
+                  </div>
                 </div>
 
-                <button className="remove" onClick={() => removeFromCart(item.id)}>✕</button>
+                <button
+                  className="remove"
+                  onClick={() => removeFromCart(item.id)}
+                >
+                  ✕
+                </button>
               </div>
             );
           })}
@@ -119,8 +149,15 @@ export default function Cart() {
             <div className="input-group">
               <label>Mã ưu đãi</label>
               <div className="input-row">
-                <input type="text" placeholder="Nhập mã" value={promo} onChange={(e) => setPromo(e.target.value)} />
-                <button className="apply-btn" onClick={applyPromo}>Áp dụng</button>
+                <input
+                  type="text"
+                  placeholder="Nhập mã"
+                  value={promo}
+                  onChange={(e) => setPromo(e.target.value)}
+                />
+                <button className="apply-btn" onClick={applyPromo}>
+                  Áp dụng
+                </button>
               </div>
             </div>
 
@@ -128,14 +165,24 @@ export default function Cart() {
               <label>Liên hệ</label>
               <div className="input-row phone">
                 <span className="prefix">+84</span>
-                <input type="tel" placeholder="Nhập số điện thoại" value={phone} onChange={(e) => setPhone(e.target.value)} />
+                <input
+                  type="tel"
+                  placeholder="Nhập số điện thoại"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                />
               </div>
             </div>
 
             <div className="input-group">
               <label>Email</label>
               <div className="input-row">
-                <input type="text" placeholder="Nhập email của bạn" value={email} onChange={(e) => setEmail(e.target.value)} />
+                <input
+                  type="text"
+                  placeholder="Nhập email của bạn"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
               </div>
             </div>
 
@@ -146,10 +193,12 @@ export default function Cart() {
 
             <div className="pay-alt">
               <button className="qr-btn vnpay-btn" onClick={payVnpay}>
-                <img src={vnpayLogo} alt="VNPay" className="pay-logo" /> Thanh toán với VNPay QR
+                <img src={vnpayLogo} alt="VNPay" className="pay-logo" /> Thanh
+                toán với VNPay QR
               </button>
               <button className="qr-btn momo-btn" onClick={payMomo}>
-                <img src={momoLogo} alt="MoMo" className="pay-logo" /> Thanh toán với MoMo QR
+                <img src={momoLogo} alt="MoMo" className="pay-logo" /> Thanh
+                toán với MoMo QR
               </button>
             </div>
 
