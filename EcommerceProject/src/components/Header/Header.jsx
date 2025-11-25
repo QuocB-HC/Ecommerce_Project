@@ -3,7 +3,7 @@
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import "../Header/header.css";
 import "../../theme/theme.css";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { FiMenu, FiLogOut } from "react-icons/fi";
 import { FaUserCircle, FaShoppingCart, FaSearch } from "react-icons/fa";
 import { useCart } from "../../context/CartContext"; // ✅ import context
@@ -171,9 +171,9 @@ export default function Header() {
 
       {/* 2. Logo */}
       <NavLink to="/">
-        <h1 className="logo">
+        <div className="logo">
           <img src={Logo} alt="Logo Website" />
-        </h1>
+        </div>
       </NavLink>
 
       {/* 3. Thanh Tìm kiếm */}
@@ -295,8 +295,8 @@ export default function Header() {
                   : "nav-link nav-link-account"
               }
             >
-              <FaUserCircle className="icon" style={{ marginRight: "5px" }} />
-              {getCustomerDisplayName()}
+              {/* <FaUserCircle className="icon" style={{ marginRight: "5px" }} />
+              {getCustomerDisplayName()} */}
             </NavLink>
 
             {/* Nút Đăng xuất */}
