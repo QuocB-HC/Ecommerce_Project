@@ -15,6 +15,7 @@ import { useAuth } from "../../context/AuthContext";
 export default function Header() {
   const [showMenu, setShowMenu] = useState(false);
   const toggleMenu = () => setShowMenu(!showMenu);
+  const backendUrl = process.env.REACT_APP_MEDUSA_BACKEND_URL;
 
   // ✅ Lấy trạng thái xác thực và thông tin khách hàng
   const { isAuthenticated, customer, logout } = useAuth();
@@ -57,7 +58,7 @@ export default function Header() {
   // Load all products once for client-side filtering (Medusa store endpoint)
   useEffect(() => {
     const regionId = process.env.REACT_APP_MEDUSA_REGION_ID;
-    const url = `http://localhost:9000/store/products?limit=1000${
+    const url = `${backendUrl}/store/products?limit=1000${
       regionId ? `&region_id=${regionId}` : ""
     }`;
     setLoadingProducts(true);
