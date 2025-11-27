@@ -1,62 +1,70 @@
-import spotifyLogo from "../../assets/images/spotify-logo.png";
-import netflixLogo from "../../assets/images/netflix-logo.png";
-import adobeLogo from "../../assets/images/adobe-logo.png";
-import chatgptLogo from "../../assets/images/chatgpt-logo.png";
-import antiVirusLogo from "../../assets/images/anti-virus-logo.png";
-import vpnLogo from "../../assets/images/vpn-logo.png";
-import elsaSpeakLogo from "../../assets/images/elsa-speak-logo.png";
-import microsoftLogo from "../../assets/images/microsoft-logo.png";
-import tinderLogo from "../../assets/images/tinder-logo.png";
-import youtubeLogo from "../../assets/images/youtube_logo.png";
-import duolingoLogo from "../../assets/images/duolingo-logo.png";
+// import spotifyLogo from "/images/spotify-logo.png";
+// import netflixLogo from "../../assets/images/netflix-logo.png";
+// import adobeLogo from "../../assets/images/adobe-logo.png";
+// import chatgptLogo from "../../assets/images/chatgpt-logo.png";
+// import antiVirusLogo from "../../assets/images/anti-virus-logo.png";
+// import vpnLogo from "../../assets/images/vpn-logo.png";
+// import elsaSpeakLogo from "../../assets/images/elsa-speak-logo.png";
+// import microsoftLogo from "../../assets/images/microsoft-logo.png";
+// import tinderLogo from "../../assets/images/tinder-logo.png";
+// import youtubeLogo from "../../assets/images/youtube_logo.png";
+// import duolingoLogo from "../../assets/images/duolingo-logo.png";
 import "./InfinityScrollBar.css";
 import { Link } from "react-router-dom";
 
 const logos = [
   {
-    src: spotifyLogo,
+    src: "/images/spotify-logo.png",
     name: "Spotify",
     link: "/products/prod_01K72DZQB15YCF1YSQTD3WPYF3",
   },
   {
-    src: netflixLogo,
+    src: "/images/netflix-logo.png",
     name: "Netflix",
     link: "/products/prod_01K73GH4C095RABRJYHGY4M4N3",
   },
   {
-    src: adobeLogo,
+    src: "/images/adobe-logo.png",
     name: "Adobe",
     link: "/products/prod_01K8M9VB03HV2BMA103T60N0EH",
   },
   {
-    src: chatgptLogo,
+    src: "/images/chatgpt-logo.png",
     name: "Chat GPT 4.0",
     link: "/products/prod_01K8MB1QGG41PGF6TW6EMV8WE5",
   },
   {
-    src: antiVirusLogo,
+    src: "/images/anti-virus-logo.png",
     name: "Anti Virus",
     link: "/products?category=Diệt Virus",
   },
-  { src: vpnLogo, name: "VPN", link: "/products?category=VPN" },
-  { src: elsaSpeakLogo, name: "Elsa Premium", link: "/" },
   {
-    src: microsoftLogo,
+    src: "/images/vpn-logo.png",
+    name: "VPN",
+    link: "/products?category=VPN",
+  },
+  {
+    src: "/images/elsa-speak-logo.png",
+    name: "Elsa Premium",
+    link: "/",
+  },
+  {
+    src: "/images/microsoft-logo.png",
     name: "Microsoft",
     link: "/products?category=Microsoft",
   },
   {
-    src: tinderLogo,
+    src: "/images/tinder-logo.png",
     name: "Tinder",
     link: "/products/prod_01K729GBC2K15QSYVGC7RFMBPS",
   },
   {
-    src: youtubeLogo,
+    src: "/images/youtube_logo.png",
     name: "YouTube",
     link: "/products/prod_01K73F3JEKSPGGJEQ99ZFFRFEC",
   },
   {
-    src: duolingoLogo,
+    src: "/images/duolingo-logo.png",
     name: "Duolingo",
     link: "/products/prod_01K73N1X5ZTHV9QRJXTNQBEJ2N",
   },
