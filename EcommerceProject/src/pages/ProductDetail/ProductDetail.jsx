@@ -260,12 +260,12 @@ export default function ProductDetail() {
           >
             Chính sách
           </button>
-          <button
+          {/* <button
             className={activeTab === "review" ? "active" : ""}
             onClick={() => setActiveTab("review")}
           >
             Đánh giá
-          </button>
+          </button> */}
         </div>
 
         <div className="tab-content">
@@ -289,9 +289,9 @@ export default function ProductDetail() {
               7 ngày nếu có lỗi do nhà sản xuất.
             </p>
           )}
-          {activeTab === "review" && (
+          {/* {activeTab === "review" && (
             <p>Chưa có đánh giá nào cho sản phẩm này.</p>
-          )}
+          )} */}
         </div>
       </div>
     </div>

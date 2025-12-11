@@ -12,6 +12,7 @@ RUN npm install
 
 # Copy source code
 COPY . .
+COPY static ./static
 
 # Expose the port Medusa runs on
 EXPOSE 9000

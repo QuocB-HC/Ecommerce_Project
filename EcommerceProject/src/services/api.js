@@ -265,7 +265,7 @@ export async function fetchOrderById(orderId) {
   return res.data.order;
 }
 
-// ✅ Lấy danh sách đơn hàng (phải login)
+// Lấy danh sách đơn hàng (phải login)
 export async function fetchOrders(customerToken) {
   const authApi = axios.create({
     baseURL: `${API_URL}/store`,
@@ -275,10 +275,16 @@ export async function fetchOrders(customerToken) {
     },
   });
 
-  const res = await authApi.get(`/orders`);
+  const res = await authApi.get(`/orders`, {
+    params: {
+      order: "-created_at",
+      limit: 20,
+    }
+  });
   return res.data.orders;
 }
 
+// Lấy danh sách giao dịch thanh toán từ các đơn hàng
 export async function fetchTransactions(customerToken) {
   const authApi = axios.create({
     baseURL: `${API_URL}/store`,
@@ -288,7 +294,12 @@ export async function fetchTransactions(customerToken) {
     },
   });
 
-  const ordersRes = await authApi.get(`/orders`);
+  const ordersRes = await authApi.get(`/orders`, {
+    params: {
+      order: "-created_at",
+      limit: 20,
+    }
+  });
   const orders = ordersRes.data.orders || [];
 
   const allTransactions = await Promise.all(
